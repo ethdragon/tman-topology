@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		16A4D2C419F0C844002BD1A8 /* tman.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 16A4D2C219F0C844002BD1A8 /* tman.cpp */; };
+		16C0995F19F9F47D0005DB09 /* topologies.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 16C0995D19F9F47D0005DB09 /* topologies.cpp */; };
 		16E86AC719CD37DD007B773A /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 16E86AC619CD37DD007B773A /* main.cpp */; };
 		16E86AC919CD37DD007B773A /* tman.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 16E86AC819CD37DD007B773A /* tman.1 */; };
 /* End PBXBuildFile section */
@@ -25,6 +27,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		16A4D2C219F0C844002BD1A8 /* tman.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tman.cpp; sourceTree = "<group>"; };
+		16A4D2C519F0C902002BD1A8 /* tman.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = tman.h; sourceTree = "<group>"; };
+		16C0995D19F9F47D0005DB09 /* topologies.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = topologies.cpp; sourceTree = "<group>"; };
+		16C0995E19F9F47D0005DB09 /* topologies.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = topologies.h; sourceTree = "<group>"; };
 		16E86AC319CD37DD007B773A /* tman */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = tman; sourceTree = BUILT_PRODUCTS_DIR; };
 		16E86AC619CD37DD007B773A /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		16E86AC819CD37DD007B773A /* tman.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = tman.1; sourceTree = "<group>"; };
@@ -61,6 +67,10 @@
 			isa = PBXGroup;
 			children = (
 				16E86AC619CD37DD007B773A /* main.cpp */,
+				16A4D2C519F0C902002BD1A8 /* tman.h */,
+				16A4D2C219F0C844002BD1A8 /* tman.cpp */,
+				16C0995E19F9F47D0005DB09 /* topologies.h */,
+				16C0995D19F9F47D0005DB09 /* topologies.cpp */,
 				16E86AC819CD37DD007B773A /* tman.1 */,
 			);
 			path = tman;
@@ -117,7 +127,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16C0995F19F9F47D0005DB09 /* topologies.cpp in Sources */,
 				16E86AC719CD37DD007B773A /* main.cpp in Sources */,
+				16A4D2C419F0C844002BD1A8 /* tman.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -227,6 +239,7 @@
 				16E86ACE19CD37DD007B773A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

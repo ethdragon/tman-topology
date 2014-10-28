@@ -1,0 +1,102 @@
+//
+//  tman.h
+//  tman
+//
+//  Created by Yang LIU on 10/16/14.
+//  Copyright (c) 2014 Yang Liu. All rights reserved.
+//
+
+#ifndef tman_tman_h
+#define tman_tman_h
+
+#define _MY_DEBUG_FLG 1
+
+#define _DEBUG(x) do { \
+if (_MY_DEBUG_FLG) { \
+    auto _timestamp = std::time(0); \
+    auto _tm = *std::localtime(&_timestamp); \
+    std::cout<<std::put_time(&_tm, "[%Y-%m-%d %H:%M:%S]")<<"|DEBUG| "<<x<<'\n';\
+    }\
+} while (0)
+
+#include<stdarg.h>
+#include <list>
+#include <ctime>
+#include <vector>
+#include <iomanip>
+#include <iostream>
+#include <unordered_map>
+#include <initializer_list>
+
+class Node;
+class Topo;
+
+typedef std::pair<size_t, size_t> Pair;
+
+//http://www.cplusplus.com/reference/algorithm/sort/?kw=sort
+struct my_comparator {
+    bool operator ()(Pair n1, Pair n2) {
+        return n1.second < n2.second;
+    }
+};
+typedef struct my_comparator my_comparator;
+
+class Node{
+public:
+    Node();                                     // init the node with 100 neighbours, random id
+    Node(size_t id, size_t neighbour_size);
+    virtual ~Node();
+    
+    void init_neighbours ();
+    size_t get_id();                            // return the id of the node
+    size_t get_tid();
+    size_t get_max_neighb_size();
+    size_t get_curr_neighb_size();
+    bool join (Topo *);                         // join the topology, return true if successed
+    bool leave ();                              // leave the topology, return ture if no errors
+    size_t update_prespective(std::vector<size_t>);  // update local prespective, return the size
+                                                     // of the neighbour after updates
+    size_t update_prespective();
+    size_t get_rand_neighbour();
+    std::vector<size_t> get_prespective ();     // return the current local prespective
+    
+protected:
+    size_t id, neighbour_size, tid;
+    Topo *topo;                                 // joined topology
+    std::vector<std::pair<size_t, size_t>> neighbours;         // list of neighbour ids
+    
+private:
+    my_comparator cmp;
+};
+
+class Topo{
+public:
+    Topo();
+    Topo(size_t topo_size);
+    virtual ~Topo();
+    
+    virtual size_t distant(size_t, size_t) = 0;     // return the distance of the two nodes
+    virtual std::vector<double> node_qth (size_t) = 0;  // return the coordinates/location of the nodes
+    
+    size_t get_member_size();
+    size_t get_topo_size();
+    size_t unreachable();                           // return the minimum length considered as unreachable
+    size_t join (Node *n);                          // on success, return an position id other than 0
+                                                    // return 0 if the node fail to join.
+    bool leave (size_t);                            // return true of the node leave successfully
+    bool contains (size_t);
+    Node *get_node(size_t id);                      // return the pointer of the node
+    
+protected:
+    size_t _unreachable;
+
+private:  //protected:
+    size_t topo_size;
+    std::list<size_t> tid_pool;
+    std::unordered_map<size_t, Node *> map;         // <pos, node>
+    
+private:
+    void init ();
+};
+
+#endif
