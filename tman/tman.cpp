@@ -58,7 +58,7 @@ bool Node::join(Topo *t) {
     tid = t->join(this);
     if(!tid) { return false; }
     this->topo = t;
-    //init_neighbours();
+    init_neighbours();
     return true;
 }
 
@@ -79,7 +79,7 @@ size_t Node::update_prespective(std::vector<size_t> nlist) {
     neighbours.get_allocator().allocate(nlist.size()+neighbours.size());
     std::vector<size_t>::iterator it;
     for (it=nlist.begin(); it!=nlist.end(); it++) {
-        std::pair<size_t, size_t> neighbour;
+        Pair neighbour;
         neighbour.first = *it;
         neighbour.second = topo->distant(tid, *it);
     }
@@ -113,7 +113,7 @@ std::vector<size_t> Node::get_prespective() {
     if (!topo) { return nlist; }
     
     nlist.get_allocator().allocate(neighbours.size()); //for optimization
-    std::vector<std::pair<size_t, size_t>>::iterator it;
+    std::vector<Pair>::iterator it;
     for (it=neighbours.begin(); it!=neighbours.end(); it++) {
         nlist.push_back(it->first);
     }
@@ -130,11 +130,14 @@ size_t Node::get_rand_neighbour() {
 void Node::init_neighbours() {
     if (!topo) { return; }
     size_t i;
+    // Make sure the random picked neighbour doesn't repeat
     std::unordered_set<size_t> set;
     for (i=0; i<neighbour_size; i++) {
         set.insert(rand()%topo->get_topo_size());
     }
     
+    // Choose random nodes as neighbours
+    neighbours.get_allocator().allocate(neighbour_size+neighbour_size);
     std::unordered_set<size_t>::iterator it;
     for (it=set.begin(); it!=set.end(); it++) {
         if (*it != tid) {
@@ -142,10 +145,10 @@ void Node::init_neighbours() {
             neighbours.push_back(p);
         }
     }
-    sort(neighbours.begin(), neighbours.end(), cmp);
     
+    // sort(neighbours.begin(), neighbours.end(), cmp);
     // update distance and clear unreachable neighbours
-    update_prespective();
+    // update_prespective();
 }
 
 
