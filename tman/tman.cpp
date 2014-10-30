@@ -95,16 +95,33 @@ size_t Node::update_prespective(std::vector<size_t> nlist) {
 size_t Node::update_prespective() {
     if (!topo) { return 0; }
     
+    size_t i=0, j=neighbours.size()-1, unreachable=topo->unreachable();
+    size_t ntid = 0, distance = unreachable;
+    while (i<=j) {
+        ntid = neighbours[i].first;
+        distance = topo->distant(tid, ntid);
+        neighbours[i].second = distance;
+        if (distance >= unreachable) {
+            Pair t = neighbours[i];
+            neighbours[i] = neighbours[j];
+            neighbours[j--] = t;
+            continue;
+        }
+        i++;
+    }
+    neighbours.resize(j+1);
+    
     sort(neighbours.begin(), neighbours.end(), cmp);
+    /*
     size_t cnt = neighbours.size();
-    size_t unreachable = topo->unreachable();
-    std::vector<Pair>::reverse_iterator it;
-    for (it=neighbours.rbegin(); it!=neighbours.rend(); it++) {
-        if (it->second < unreachable) { break; }
+    std::vector<Pair>::reverse_iterator rit;
+    for (rit=neighbours.rbegin(); rit!=neighbours.rend(); rit++) {
+        if (rit->second < unreachable) { break; }
         cnt--;
     }
     neighbours.resize(cnt);
-    return cnt;
+    return cnt;*/
+    return neighbours.size();
 }
 
 // return the list of tid of current neighbours
@@ -129,11 +146,13 @@ size_t Node::get_rand_neighbour() {
 
 void Node::init_neighbours() {
     if (!topo) { return; }
-    size_t i;
+    size_t i, ntid=0;
     // Make sure the random picked neighbour doesn't repeat
     std::unordered_set<size_t> set;
     for (i=0; i<neighbour_size; i++) {
-        set.insert(rand()%topo->get_topo_size());
+        ntid = rand()%topo->get_topo_size()+1;
+        if (ntid == tid) { continue; }
+        set.insert(ntid);
     }
     
     // Choose random nodes as neighbours

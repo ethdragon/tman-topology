@@ -10,20 +10,24 @@
 #include "topologies.h"
 
 Ring_Topo::Ring_Topo() {
-	_unreachable = (get_topo_size()+1)/2;
+	_unreachable = (get_topo_size()+2)/2;
 }
 
 Ring_Topo::Ring_Topo(size_t topo_size):Topo(topo_size) {
-    _unreachable = (get_topo_size()+1)/2;
+    _unreachable = (get_topo_size()+2)/2;
 }
 
 Ring_Topo::~Ring_Topo() {}
 
 size_t Ring_Topo::distant(size_t id1, size_t id2) {
 	if(!contains(id1) || !contains(id2)) { return _unreachable; }
-	size_t dis = id1>id2 ? id1-id2 : id2-id1;
-	size_t max_dis = get_topo_size()/2;
-	return dis>max_dis ? get_topo_size()-dis : dis;
+    if (id1 < id2) {
+        size_t t = id1;
+        id1 = id2;
+        id2 = t;
+    }
+    size_t dis = id1-id2;
+    return dis>=_unreachable ? get_topo_size()-id1+id2 : dis;
 }
 
 std::vector<double> Ring_Topo::node_qth(size_t tid) {
@@ -38,12 +42,12 @@ std::vector<double> Ring_Topo::node_qth(size_t tid) {
 }
 
 D_Topo::D_Topo() {
-    _unreachable = (get_topo_size()+1)/2;
+    _unreachable = (get_topo_size()+2)/2;
     cut_rate = 0.3;
 }
 
 D_Topo::D_Topo(size_t topo_size, double cut_rate):Topo(topo_size) {
-    _unreachable = (get_topo_size()+1)/2;
+    _unreachable = (get_topo_size()+2)/2;
     this->cut_rate = cut_rate;
 }
 

@@ -36,7 +36,9 @@ typedef std::pair<size_t, size_t> Pair;
 //http://www.cplusplus.com/reference/algorithm/sort/?kw=sort
 struct my_comparator {
     bool operator ()(Pair n1, Pair n2) {
-        return n1.second < n2.second;
+        return n1.second==n2.second ?
+                n1.first<n2.first :
+                n1.second<n2.second;
     }
 };
 typedef struct my_comparator my_comparator;

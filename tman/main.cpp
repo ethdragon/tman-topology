@@ -11,6 +11,7 @@
 #include <list>
 #include "topologies.h"
 
+void update_prespective(std::list<Node *> &nlist);
 void evolution (std::list<Node *> &nlist, Topo *);
 
 int main(int argc, const char * argv[])
@@ -33,6 +34,7 @@ int main(int argc, const char * argv[])
         }
     }
     
+    update_prespective(nlist);
     evolution(nlist, ring);
     
     // delete the nodes
@@ -47,6 +49,15 @@ int main(int argc, const char * argv[])
     return 0;
 }
 
+void update_prespective (std::list<Node *> &nlist) {
+    Node *node = 0;
+    std::list<Node *>::iterator it;
+    for (it=nlist.begin(); it!=nlist.end(); it++) {
+        node = *it;
+        node->update_prespective();
+    }
+}
+
 void evolution (std::list<Node *> &nlist, Topo *topo) {
     if (!topo) { return; }
 
@@ -59,7 +70,7 @@ void evolution (std::list<Node *> &nlist, Topo *topo) {
         ntid = node->get_rand_neighbour();
         if (!ntid) { continue; }
         Node *neighb = topo->get_node(ntid);
-        if (!neighb) {
+        if (neighb) {
             std::vector<size_t> neighb_prespective, node_prespective;
             neighb_prespective = neighb->get_prespective();
             node_prespective = node->get_prespective();
