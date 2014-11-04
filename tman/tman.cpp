@@ -37,6 +37,14 @@ Node::~Node() {
     neighbours.clear();
 }
 
+std::string Node::get_topo_name() {
+    if (!topo) {
+        std::string str;
+        return str;
+    }
+    return topo->get_topo_name();
+}
+
 size_t Node::get_id() {
     return id;
 }
@@ -93,18 +101,20 @@ size_t Node::update_prespective(std::vector<size_t> nlist) {
 
 // clear the unreachable neighbours
 size_t Node::update_prespective() {
-    if (!topo) { return 0; }
-    
+    if (!topo || !neighbours.size()) { return 0; }
+
     size_t i=0, j=neighbours.size()-1, unreachable=topo->unreachable();
     size_t ntid = 0, distance = unreachable;
     while (i<=j) {
         ntid = neighbours[i].first;
         distance = topo->distant(tid, ntid);
         neighbours[i].second = distance;
-        if (distance >= unreachable) {
+        if (distance >= unreachable) {  // careful unsigned variable won't go negetive
             Pair t = neighbours[i];
             neighbours[i] = neighbours[j];
-            neighbours[j--] = t;
+            neighbours[j] = t;
+            if (!j) { j--; }
+            else { break; }
             continue;
         }
         i++;
@@ -168,12 +178,6 @@ void Node::init_neighbours() {
     // sort(neighbours.begin(), neighbours.end(), cmp);
     // update distance and clear unreachable neighbours
     // update_prespective();
-}
-
-
-Topo::Topo() {
-    topo_size = 1000;
-    init();
 }
 
 Topo::Topo(size_t topo_size) {

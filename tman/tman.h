@@ -19,11 +19,12 @@ if (_MY_DEBUG_FLG) { \
     }\
 } while (0)
 
-#include<stdarg.h>
+#include <stdarg.h>
 #include <list>
 #include <ctime>
 #include <vector>
 #include <iomanip>
+#include <string>
 #include <iostream>
 #include <unordered_map>
 #include <initializer_list>
@@ -46,8 +47,9 @@ typedef struct my_comparator my_comparator;
 class Node{
 public:
     Node();                                     // init the node with 100 neighbours, random id
-    Node(size_t id, size_t neighbour_size);
+    Node(size_t id, size_t neighbour_size=30);
     virtual ~Node();
+    virtual std::string get_topo_name ();
     
     void init_neighbours ();
     size_t get_id();                            // return the id of the node
@@ -73,12 +75,12 @@ private:
 
 class Topo{
 public:
-    Topo();
-    Topo(size_t topo_size);
+    Topo(size_t topo_size=1000);
     virtual ~Topo();
     
     virtual size_t distant(size_t, size_t) = 0;     // return the distance of the two nodes
     virtual std::vector<double> node_qth (size_t) = 0;  // return the coordinates/location of the nodes
+    virtual std::string get_topo_name () = 0;
     
     size_t get_member_size();
     size_t get_topo_size();
@@ -91,6 +93,7 @@ public:
     
 protected:
     size_t _unreachable;
+    std::string topo_name;
 
 private:  //protected:
     size_t topo_size;

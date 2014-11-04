@@ -9,10 +9,6 @@
 #include <math.h>
 #include "topologies.h"
 
-Ring_Topo::Ring_Topo() {
-	_unreachable = (get_topo_size()+2)/2;
-}
-
 Ring_Topo::Ring_Topo(size_t topo_size):Topo(topo_size) {
     _unreachable = (get_topo_size()+2)/2;
 }
@@ -41,9 +37,8 @@ std::vector<double> Ring_Topo::node_qth(size_t tid) {
     return qth;
 }
 
-D_Topo::D_Topo() {
-    _unreachable = (get_topo_size()+2)/2;
-    cut_rate = 0.3;
+std::string Ring_Topo::get_topo_name() {
+    return std::string(topo_name);
 }
 
 D_Topo::D_Topo(size_t topo_size, double cut_rate):Topo(topo_size) {
@@ -95,4 +90,8 @@ std::vector<double> D_Topo::node_qth(size_t tid) {
         qth.push_back(sin(angle));
     }
     return qth;
+}
+
+std::string D_Topo::get_topo_name() {
+    return std::string(topo_name);
 }

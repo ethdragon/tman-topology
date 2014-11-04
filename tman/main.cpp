@@ -9,75 +9,23 @@
 #include <stdio.h>
 #include <iostream>
 #include <list>
+#include "driver.h"
 #include "topologies.h"
-
-void update_prespective(std::list<Node *> &nlist);
-void evolution (std::list<Node *> &nlist, Topo *);
 
 int main(int argc, const char * argv[])
 {
 
     // insert code here...
-    Topo *ring, *d;
-    ring = new Ring_Topo (10);
-    d = new D_Topo(10, 0.2);
+    Drive driver;
+    driver.set_topo('r');
+    driver.set_node_size(900);
+    driver.set_neighb_size(30);
     
-    // create a list of nodes and join the topology
-    // may change to multithreading instead of using a ugly list
-    // to keep track of all the nodes
-    std::list<Node *> nlist;
-    Node *node;
-    while (nlist.size() < 10) {
-        node = new Node ();
-        if (node->join(ring)) {
-            nlist.push_back(node);
-        }
-    }
+    driver.init_stage();
+    driver.evolution(20);
+    driver.terminate_stage(0);
     
-    update_prespective(nlist);
-    evolution(nlist, ring);
-    
-    // delete the nodes
-    while (nlist.size()) {
-        node = nlist.front();
-        nlist.pop_front();
-        delete node;
-    }
-    delete d;
-    delete ring;
     printf("Hello World!\n");
     return 0;
-}
-
-void update_prespective (std::list<Node *> &nlist) {
-    Node *node = 0;
-    std::list<Node *>::iterator it;
-    for (it=nlist.begin(); it!=nlist.end(); it++) {
-        node = *it;
-        node->update_prespective();
-    }
-}
-
-void evolution (std::list<Node *> &nlist, Topo *topo) {
-    if (!topo) { return; }
-
-    // topology evolution
-    std::list<Node *>::iterator it;
-    Node *node = 0;
-    for (it=nlist.begin(); it!=nlist.end(); it++) {
-        node = *it;
-        size_t ntid;
-        ntid = node->get_rand_neighbour();
-        if (!ntid) { continue; }
-        Node *neighb = topo->get_node(ntid);
-        if (neighb) {
-            std::vector<size_t> neighb_prespective, node_prespective;
-            neighb_prespective = neighb->get_prespective();
-            node_prespective = node->get_prespective();
-            
-            neighb->update_prespective(node_prespective);
-            node->update_prespective(neighb_prespective);
-        }
-    }
 }
 
