@@ -46,8 +46,7 @@ typedef struct my_comparator my_comparator;
 
 class Node{
 public:
-    Node();                                     // init the node with 100 neighbours, random id
-    Node(size_t id, size_t neighbour_size=30);
+    Node(size_t size=30);                       // init the node with 100 neighbours, random id
     virtual ~Node();
     virtual std::string get_topo_name ();
     
@@ -67,7 +66,7 @@ public:
 protected:
     size_t id, neighbour_size, tid;
     Topo *topo;                                 // joined topology
-    std::vector<std::pair<size_t, size_t>> neighbours;         // list of neighbour ids
+    std::vector<Pair> neighbours;         // list of neighbour ids
     
 private:
     my_comparator cmp;

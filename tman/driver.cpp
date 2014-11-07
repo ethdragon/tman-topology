@@ -8,10 +8,12 @@
 
 #include "driver.h"
 
-Drive::Drive (size_t neighb, double cut_size) {
-    this->neighb = neighb;
+Drive::Drive (size_t neighb_size, double cut_size) {
+    srand((unsigned int)time(NULL));
+    this->neighb_size = neighb_size;
     this->cut_size = cut_size;
-    this->level = NODE;
+    this->interval = 1;
+    this->_t = 'r';
 }
 
 Drive::~Drive () {
@@ -21,6 +23,15 @@ Drive::~Drive () {
 }
 
 void Drive::set_topo(char t, size_t t_size) {
+    this->_t = t;
+    this->topo_size = t_size;
+}
+
+void Drive::set_topo_size(size_t t_size) {
+    this->topo_size = t_size;
+}
+
+void Drive::build_topo(char t, size_t t_size) {
     switch (t) {
         case 'r':
         case 'R':
@@ -47,14 +58,15 @@ void Drive::set_node_size(size_t node_size) {
     this->node_size = node_size;
 }
 
-void Drive::set_neighb_size (size_t neighb) {
-    this->neighb = neighb;
+void Drive::set_neighb_size (size_t neighb_size) {
+    this->neighb_size = neighb_size;
 }
 
 void Drive::init_stage() {
+    build_topo(_t, topo_size);
     Node *node = 0;
     while (topo->get_member_size() < node_size) {
-        node = new Node ();
+        node = new Node (neighb_size);
         if (!node) {
             terminate_stage(true);
             printf("Allocate Node failed\n");
@@ -67,6 +79,7 @@ void Drive::init_stage() {
         }
     }
     update_prespective();
+    write_file(0);
 }
 
 void Drive::evolution(int times) {
@@ -87,6 +100,9 @@ void Drive::evolution(int times) {
                 neighb->update_prespective(node_prespective);
                 node->update_prespective(neighb_prespective);
             }
+        }
+        if (!(i%interval)) {
+            write_file(i+1);
         }
     }
 }
@@ -111,6 +127,45 @@ void Drive::update_prespective() {
     }
 }
 
+void Drive::set_logger(int log_interval) {
+    interval = log_interval;
+}
+
+void Drive::write_file(int iteration, const char * appendix) {
+    std::list<Node *>::iterator it;
+    FILE *fp = 0;
+    char fname[50];
+    if (appendix) {
+        sprintf(fname, "%s_t%zu_n%zu_k%zu_i%d_%s.txt",
+                (topo->get_topo_name()).c_str(),
+                topo->get_topo_size(),
+                node_size,
+                neighb_size,
+                iteration,
+                appendix);
+    } else {
+        sprintf(fname, "%s_t%zu_n%zu_k%zu_i%d.txt",
+                (topo->get_topo_name()).c_str(),
+                topo->get_topo_size(),
+                node_size,
+                neighb_size,
+                iteration);
+    }
+    fp = fopen(fname, "w");
+    for (it=node_list.begin(); it!=node_list.end(); it++) {
+        std::vector<size_t>::iterator it2;
+        std::vector<size_t> nei = (*it)->get_prespective();
+        size_t tid = (*it)->get_tid();
+        for (it2=nei.begin(); it2!=nei.end(); it2++) {
+            fprintf(fp, "%zu %zu %zu\n",
+                    tid,
+                    *it2,
+                    topo->distant(tid, *it2));
+        }
+    }
+    fclose(fp);
+}
+
 void log_neighbours (std::list<Node> nlist, int iteration=0) {
     std::list<Node>::iterator it;
     std::vector<size_t>::iterator iter;
@@ -132,3 +187,5 @@ void log_neighbours (std::list<Node> nlist, int iteration=0) {
         fclose(fp);
     }
 }
+
+

@@ -12,21 +12,12 @@
 #include <unordered_set>
 #include "tman.h"
 
-Node::Node() {
-    srand((unsigned int)time(NULL));
-    this->neighbour_size = 30;
+Node::Node(size_t neighbour_size) {
+    //srand((unsigned int)time(NULL));
+    this->neighbour_size = neighbour_size;
     this->id = rand();
     this->topo = 0;
     this->tid = 0;
-    neighbours = {};
-}
-
-Node::Node(size_t id, size_t neighbour_size) {
-    srand((unsigned int)time(NULL));
-    this->id = id;
-    this->tid = 0;
-    this->neighbour_size = neighbour_size;
-    this->topo = 0;
     neighbours = {};
 }
 
@@ -82,21 +73,31 @@ bool Node::leave() {
 size_t Node::update_prespective(std::vector<size_t> nlist) {
     if (!topo) { return 0; }
     //neighbours.assign(nlist.begin(), nlist.end());
-    
-    // allocate memory
-    neighbours.get_allocator().allocate(nlist.size()+neighbours.size());
-    std::vector<size_t>::iterator it;
-    for (it=nlist.begin(); it!=nlist.end(); it++) {
-        Pair neighbour;
-        neighbour.first = *it;
-        neighbour.second = topo->distant(tid, *it);
+    std::unordered_set<size_t> hset;
+    std::vector<Pair>::iterator pit;
+    hset.insert(tid);
+    for (pit=neighbours.begin(); pit!=neighbours.end(); pit++) {
+        hset.insert(pit->first);
     }
     
+    std::vector<size_t>::iterator it;
+    for (it=nlist.begin(); it!=nlist.end(); it++) {
+        if(hset.find(*it)==hset.end()) {
+            Pair neighbour;
+            neighbour.first = *it;
+            neighbour.second = topo->distant(tid, *it);
+            neighbours.push_back(neighbour);
+        }
+    }
+    
+    /*
     sort(neighbours.begin(), neighbours.end(), cmp);
     if(neighbours.size() > neighbour_size) {
 	    neighbours.resize(neighbour_size);
-    }
-    return neighbour_size;
+    }*/
+    size_t neighbour_effictive = update_prespective();
+    
+    return neighbour_effictive;
 }
 
 // clear the unreachable neighbours
@@ -113,15 +114,18 @@ size_t Node::update_prespective() {
             Pair t = neighbours[i];
             neighbours[i] = neighbours[j];
             neighbours[j] = t;
-            if (!j) { j--; }
+            if (j) { j--; }
             else { break; }
             continue;
         }
         i++;
     }
-    neighbours.resize(j+1);
+    size_t size = j+1 > neighbour_size ? neighbour_size : j+1;
     
     sort(neighbours.begin(), neighbours.end(), cmp);
+    neighbours.resize(size);
+    
+    
     /*
     size_t cnt = neighbours.size();
     std::vector<Pair>::reverse_iterator rit;

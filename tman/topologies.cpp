@@ -11,6 +11,7 @@
 
 Ring_Topo::Ring_Topo(size_t topo_size):Topo(topo_size) {
     _unreachable = (get_topo_size()+2)/2;
+    topo_name = std::string("Ring");
 }
 
 Ring_Topo::~Ring_Topo() {}
@@ -44,6 +45,7 @@ std::string Ring_Topo::get_topo_name() {
 D_Topo::D_Topo(size_t topo_size, double cut_rate):Topo(topo_size) {
     _unreachable = (get_topo_size()+2)/2;
     this->cut_rate = cut_rate;
+    topo_name = std::string("D");
 }
 
 D_Topo::~D_Topo() {}

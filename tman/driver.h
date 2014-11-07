@@ -12,11 +12,6 @@
 #include <stdio.h>
 #include "topologies.h"
 
-enum log_level {
-    NODE,
-    TOPOLOGY
-};
-
 class Drive {
 public:
     Drive (size_t neighb=30, double cut_size=0.3);
@@ -25,8 +20,8 @@ public:
     void set_topo(char t, size_t t_size=1000);
     void set_node_size(size_t node_size=800);
     void set_neighb_size(size_t neighb=30);
-    void set_logger (enum log_level level=NODE,
-                     int log_interveral=1);
+    void set_topo_size(size_t t_size=1000);
+    void set_logger (int log_interveral=1);
     
     void init_stage();
     void evolution (int times=1);
@@ -34,13 +29,17 @@ public:
     
 private:
     Topo *topo;
-    size_t neighb;
+    size_t neighb_size;
     size_t node_size;
+    size_t topo_size;
+    char _t;
+    int interval;
     double cut_size;
     std::list<Node *> node_list;
-    enum log_level level;
     
     void update_prespective();
+    void build_topo(char, size_t);
+    void write_file (int iteration, const char* appendix=0);
 };
 
 void update_prespective(std::list<Node *> &nlist);

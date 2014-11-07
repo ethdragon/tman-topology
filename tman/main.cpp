@@ -18,11 +18,12 @@ int main(int argc, const char * argv[])
     // insert code here...
     Drive driver;
     driver.set_topo('r');
+    driver.set_topo_size(1000);
     driver.set_node_size(900);
     driver.set_neighb_size(30);
     
     driver.init_stage();
-    driver.evolution(20);
+    driver.evolution(10);
     driver.terminate_stage(0);
     
     printf("Hello World!\n");
