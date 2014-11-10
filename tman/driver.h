@@ -47,7 +47,7 @@ private:
     void build_topo(char, size_t);
     void write_file (int iteration, const char* appendix=0);
     
-    ptree node2ptree(Node *);
+    ptree node2ptree(Node const*) const;
     ptree generate_ptree();
 };
 

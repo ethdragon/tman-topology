@@ -144,10 +144,9 @@ std::vector<size_t> Node::get_prespective() const{
     if (!topo) { return nlist; }
     
     nlist.get_allocator().allocate(neighbours.size());
-    std::vector<Pair> copy_neighbours (neighbours);
     
-    std::vector<Pair>::iterator it;
-    for (it=copy_neighbours.begin(); it!=copy_neighbours.end(); it++) {
+    std::vector<Pair>::const_iterator it;
+    for (it=neighbours.begin(); it!=neighbours.end(); it++) {
         nlist.push_back(it->first);
     }
     //nlist.assign(neighbours.begin(), neighbours.end());

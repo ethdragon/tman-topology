@@ -179,7 +179,7 @@ void Drive::write2json() {
     std::cout<<json<<'\n';
 }
 
-ptree Drive::node2ptree(Node *n) {
+ptree Drive::node2ptree(Node const*n) const{
     ptree pt, pt_neighbs;
     if (!n) {
         return pt;
