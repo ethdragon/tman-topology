@@ -19,9 +19,9 @@ public:
     Ring_Topo(size_t topo_size=1000);
     virtual ~Ring_Topo();
     
-    virtual size_t distant(size_t, size_t);
-    virtual std::vector<double> node_qth (size_t);
-    virtual std::string get_topo_name();
+    virtual size_t distant(size_t, size_t) const;
+    virtual std::vector<double> node_qth (size_t) const;
+    virtual std::string get_topo_name() const;
 };
 
 class D_Topo : public Topo {
@@ -29,9 +29,9 @@ public:
     D_Topo(size_t topo_size=1000, double cut_rate=0.3);
     virtual ~D_Topo();
     
-    virtual size_t distant(size_t, size_t);
-    virtual std::vector<double> node_qth (size_t);
-    virtual std::string get_topo_name();
+    virtual size_t distant(size_t, size_t) const;
+    virtual std::vector<double> node_qth (size_t) const;
+    virtual std::string get_topo_name() const;
     
 protected:
     double cut_rate;

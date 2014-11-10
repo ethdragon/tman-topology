@@ -36,19 +36,19 @@ std::string Node::get_topo_name() {
     return topo->get_topo_name();
 }
 
-size_t Node::get_id() {
+size_t Node::get_id() const{
     return id;
 }
 
-size_t Node::get_tid() {
+size_t Node::get_tid() const{
     return tid;
 }
 
-size_t Node::get_curr_neighb_size() {
+size_t Node::get_curr_neighb_size() const{
 	return neighbours.size();
 }
 
-size_t Node::get_max_neighb_size() {
+size_t Node::get_max_neighb_size() const{
     return neighbour_size;
 }
 
@@ -139,13 +139,15 @@ size_t Node::update_prespective() {
 }
 
 // return the list of tid of current neighbours
-std::vector<size_t> Node::get_prespective() {
+std::vector<size_t> Node::get_prespective() const{
     std::vector<size_t> nlist = {};
     if (!topo) { return nlist; }
     
-    nlist.get_allocator().allocate(neighbours.size()); //for optimization
+    nlist.get_allocator().allocate(neighbours.size());
+    std::vector<Pair> copy_neighbours (neighbours);
+    
     std::vector<Pair>::iterator it;
-    for (it=neighbours.begin(); it!=neighbours.end(); it++) {
+    for (it=copy_neighbours.begin(); it!=copy_neighbours.end(); it++) {
         nlist.push_back(it->first);
     }
     //nlist.assign(neighbours.begin(), neighbours.end());
@@ -153,7 +155,7 @@ std::vector<size_t> Node::get_prespective() {
     return nlist;
 }
 
-size_t Node::get_rand_neighbour() {
+size_t Node::get_rand_neighbour() const{
     if (!topo || !get_curr_neighb_size()) { return 0; }
     return neighbours[rand()%get_curr_neighb_size()].first;
 }
@@ -202,7 +204,7 @@ void Topo::init() {
     map = {};
 }
 
-bool Topo::contains(size_t tid) {
+bool Topo::contains(size_t tid) const{
     std::unordered_map<size_t, Node *>::const_iterator it =
         map.find(tid);
     return it != map.end();
@@ -228,19 +230,19 @@ bool Topo::leave(size_t tid) {
     return true;
 }
 
-size_t Topo::get_member_size() {
+size_t Topo::get_member_size() const{
     return topo_size - tid_pool.size();
 }
 
-size_t Topo::get_topo_size() {
+size_t Topo::get_topo_size() const{
     return topo_size;
 }
 
-size_t Topo::unreachable() {
+size_t Topo::unreachable() const{
     return _unreachable;
 }
 
-Node *Topo::get_node(size_t id) {
+Node *Topo::get_node(size_t id) const{
 	std::unordered_map<size_t, Node *>::const_iterator it =
         map.find(id);
     if (it == map.end()) {

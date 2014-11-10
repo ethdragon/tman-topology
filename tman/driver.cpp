@@ -134,7 +134,7 @@ void Drive::set_logger(int log_interval) {
 void Drive::write_file(int iteration, const char * appendix) {
     std::list<Node *>::iterator it;
     FILE *fp = 0;
-    char fname[50];
+    char fname[100];
     if (appendix) {
         sprintf(fname, "%s_t%zu_n%zu_k%zu_i%d_%s.txt",
                 (topo->get_topo_name()).c_str(),
@@ -166,26 +166,44 @@ void Drive::write_file(int iteration, const char * appendix) {
     fclose(fp);
 }
 
-void log_neighbours (std::list<Node> nlist, int iteration=0) {
-    std::list<Node>::iterator it;
-    std::vector<size_t>::iterator iter;
-    char fname[50];
-    for (it=nlist.begin(); it!=nlist.end(); it++) {
-        FILE *fp = 0;
-        sprintf(fname, "%zu_%zu_%d_%s.txt",
-                it->get_tid(),
-                it->get_id(),
-                iteration,
-                (it->get_topo_name()).c_str()
-                );
-        fp = fopen(fname, "a");
-        fprintf(fp, "%zu\n", it->get_curr_neighb_size());
-        std::vector<size_t> neighb = it->get_prespective();
-        for (iter=neighb.begin(); iter!=neighb.end(); iter++) {
-            fprintf(fp, "%zu\t%zu\n", it->get_tid(), *iter);
-        }
-        fclose(fp);
+void Drive::write2json() {
+    Node *n = node_list.front();
+    ptree pt = node2ptree(n);
+    
+    //boost::property_tree::json_parser::write_json("node.json", pt);
+    
+    /**/
+    std::ostringstream buf;
+    write_json (buf, pt, false);
+    std::string json = buf.str();
+    std::cout<<json<<'\n';
+}
+
+ptree Drive::node2ptree(Node *n) {
+    ptree pt, pt_neighbs;
+    if (!n) {
+        return pt;
     }
+    std::vector<double> xoy = topo->node_qth(n->get_tid());
+    pt.put("id", n->get_id());
+    pt.put("tid", n->get_tid());
+    pt.put("x", xoy[0]);
+    pt.put("y", xoy[1]);
+    std::vector<size_t> neighbours = n->get_prespective();
+    std::vector<size_t>::iterator it;
+    
+    for (it=neighbours.begin(); it!=neighbours.end(); it++) {
+        _DEBUG("in for loop");
+        xoy = topo->node_qth(*it);
+        ptree pt_neighb;
+        pt_neighb.put("tid", *it);
+        pt_neighb.put("x", xoy[0]);
+        pt_neighb.put("y", xoy[1]);
+        pt_neighbs.push_back(std::make_pair("", pt_neighb));
+    }
+    
+    pt.put_child("neighbours", pt_neighbs);
+    return pt;
 }
 
 

@@ -18,13 +18,18 @@ int main(int argc, const char * argv[])
     // insert code here...
     Drive driver;
     driver.set_topo('r');
-    driver.set_topo_size(1000);
-    driver.set_node_size(900);
-    driver.set_neighb_size(30);
+    driver.set_topo_size(100);
+    driver.set_node_size(50);
+    driver.set_neighb_size(10);
     
     driver.init_stage();
-    driver.evolution(10);
+    driver.evolution(5);
+    
+    driver.write2json();
+    
     driver.terminate_stage(0);
+    
+    
     
     printf("Hello World!\n");
     return 0;

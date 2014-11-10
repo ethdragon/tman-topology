@@ -10,7 +10,12 @@
 #define __tman__driver__
 
 #include <stdio.h>
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/json_parser.hpp>
 #include "topologies.h"
+
+using boost::property_tree::ptree;
+using boost::property_tree::write_json;
 
 class Drive {
 public:
@@ -26,6 +31,7 @@ public:
     void init_stage();
     void evolution (int times=1);
     void terminate_stage(bool t);
+    void write2json();
     
 private:
     Topo *topo;
@@ -40,6 +46,9 @@ private:
     void update_prespective();
     void build_topo(char, size_t);
     void write_file (int iteration, const char* appendix=0);
+    
+    ptree node2ptree(Node *);
+    ptree generate_ptree();
 };
 
 void update_prespective(std::list<Node *> &nlist);
