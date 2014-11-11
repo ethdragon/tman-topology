@@ -166,41 +166,59 @@ void Drive::write_file(int iteration, const char * appendix) {
     fclose(fp);
 }
 
-void Drive::write2json() {
-    Node *n = node_list.front();
-    ptree pt = node2ptree(n);
+void Drive::write2json(bool concise) const{
+    std::list<Node *>::const_iterator it;
+    Node *n = 0;
+    ptree pt, nodes;
+    pt.put("topology", topo->get_topo_name());
+    for (it=node_list.begin(); it!=node_list.end(); it++) {
+        n = node_list.front();
+        ptree ptn = node2ptree(n, concise);
+        nodes.push_back(std::make_pair("", ptn));
+    }
+    pt.put_child("nodes", nodes);
     
-    //boost::property_tree::json_parser::write_json("node.json", pt);
+    
+    boost::property_tree::json_parser::write_json("node.json", pt);
     
     /**/
     std::ostringstream buf;
-    write_json (buf, pt, false);
+    write_json (buf, pt, concise);
     std::string json = buf.str();
     std::cout<<json<<'\n';
 }
 
-ptree Drive::node2ptree(Node const*n) const{
-    ptree pt, pt_neighbs;
+ptree Drive::node2ptree(Node const*n, bool concise) const{
+    ptree pt, pt_neighbs, loc;
     if (!n) {
         return pt;
     }
     std::vector<double> xoy = topo->node_qth(n->get_tid());
     pt.put("id", n->get_id());
     pt.put("tid", n->get_tid());
-    pt.put("x", xoy[0]);
-    pt.put("y", xoy[1]);
-    std::vector<size_t> neighbours = n->get_prespective();
+    loc.put("x", xoy[0]);
+    loc.put("y", xoy[1]);
+    pt.put_child("loc", loc);
+    
     std::vector<size_t>::iterator it;
+    std::vector<size_t> neighbours = n->get_prespective();
     
     for (it=neighbours.begin(); it!=neighbours.end(); it++) {
-        _DEBUG("in for loop");
+        
         xoy = topo->node_qth(*it);
-        ptree pt_neighb;
-        pt_neighb.put("tid", *it);
-        pt_neighb.put("x", xoy[0]);
-        pt_neighb.put("y", xoy[1]);
+        ptree pt_neighb, qth;
+        
+        if (concise) {
+            pt_neighb.put("", *it);      // { "tid":6 }
+        } else {
+            pt_neighb.put("tid", *it);      // {
+            qth.put("x", xoy[0]);           //      "tid":6,
+            qth.put("y", xoy[1]);           //      "loc":
+            pt_neighb.put_child("loc", qth);//             { "x":"0.0", "y":"1.0"}
+        }                                   // }
         pt_neighbs.push_back(std::make_pair("", pt_neighb));
     }
+    
     
     pt.put_child("neighbours", pt_neighbs);
     return pt;

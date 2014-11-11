@@ -25,7 +25,7 @@ int main(int argc, const char * argv[])
     driver.init_stage();
     driver.evolution(5);
     
-    driver.write2json();
+    driver.write2json(1);
     
     driver.terminate_stage(0);
     

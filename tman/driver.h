@@ -31,7 +31,7 @@ public:
     void init_stage();
     void evolution (int times=1);
     void terminate_stage(bool t);
-    void write2json();
+    void write2json(bool concise=false) const;
     
 private:
     Topo *topo;
@@ -47,7 +47,7 @@ private:
     void build_topo(char, size_t);
     void write_file (int iteration, const char* appendix=0);
     
-    ptree node2ptree(Node const*) const;
+    ptree node2ptree(Node const*, bool concise=false) const;
     ptree generate_ptree();
 };
 
