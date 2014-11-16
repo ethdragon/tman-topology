@@ -7,9 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		16A4D2C419F0C844002BD1A8 /* tman.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 16A4D2C219F0C844002BD1A8 /* tman.cpp */; };
+		1640B4641A18EDAD0096C99F /* d_topo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1640B4621A18EDAD0096C99F /* d_topo.cpp */; };
+		16A4D2C419F0C844002BD1A8 /* model.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 16A4D2C219F0C844002BD1A8 /* model.cpp */; };
 		16AE65C41A070C260003A072 /* driver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 16AE65C21A070C260003A072 /* driver.cpp */; };
-		16C0995F19F9F47D0005DB09 /* topologies.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 16C0995D19F9F47D0005DB09 /* topologies.cpp */; };
+		16C0995F19F9F47D0005DB09 /* ring_topo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 16C0995D19F9F47D0005DB09 /* ring_topo.cpp */; };
+		16D451411A15C5D800F463DB /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = 16D451401A15C5D700F463DB /* Makefile */; };
 		16E86AC719CD37DD007B773A /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 16E86AC619CD37DD007B773A /* main.cpp */; };
 		16E86AC919CD37DD007B773A /* tman.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 16E86AC819CD37DD007B773A /* tman.1 */; };
 /* End PBXBuildFile section */
@@ -28,12 +30,15 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		16A4D2C219F0C844002BD1A8 /* tman.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tman.cpp; sourceTree = "<group>"; };
-		16A4D2C519F0C902002BD1A8 /* tman.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = tman.h; sourceTree = "<group>"; };
+		1640B4621A18EDAD0096C99F /* d_topo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = d_topo.cpp; sourceTree = "<group>"; };
+		1640B4631A18EDAD0096C99F /* d_topo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = d_topo.h; sourceTree = "<group>"; };
+		16A4D2C219F0C844002BD1A8 /* model.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = model.cpp; sourceTree = "<group>"; };
+		16A4D2C519F0C902002BD1A8 /* model.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = model.h; sourceTree = "<group>"; };
 		16AE65C21A070C260003A072 /* driver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = driver.cpp; sourceTree = "<group>"; };
 		16AE65C31A070C260003A072 /* driver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = driver.h; sourceTree = "<group>"; };
-		16C0995D19F9F47D0005DB09 /* topologies.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = topologies.cpp; sourceTree = "<group>"; };
-		16C0995E19F9F47D0005DB09 /* topologies.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = topologies.h; sourceTree = "<group>"; };
+		16C0995D19F9F47D0005DB09 /* ring_topo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ring_topo.cpp; sourceTree = "<group>"; };
+		16C0995E19F9F47D0005DB09 /* ring_topo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ring_topo.h; sourceTree = "<group>"; };
+		16D451401A15C5D700F463DB /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		16E86AC319CD37DD007B773A /* tman */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = tman; sourceTree = BUILT_PRODUCTS_DIR; };
 		16E86AC619CD37DD007B773A /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		16E86AC819CD37DD007B773A /* tman.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = tman.1; sourceTree = "<group>"; };
@@ -69,13 +74,16 @@
 		16E86AC519CD37DD007B773A /* tman */ = {
 			isa = PBXGroup;
 			children = (
+				16D451401A15C5D700F463DB /* Makefile */,
 				16E86AC619CD37DD007B773A /* main.cpp */,
 				16AE65C31A070C260003A072 /* driver.h */,
 				16AE65C21A070C260003A072 /* driver.cpp */,
-				16A4D2C519F0C902002BD1A8 /* tman.h */,
-				16A4D2C219F0C844002BD1A8 /* tman.cpp */,
-				16C0995E19F9F47D0005DB09 /* topologies.h */,
-				16C0995D19F9F47D0005DB09 /* topologies.cpp */,
+				16A4D2C519F0C902002BD1A8 /* model.h */,
+				16A4D2C219F0C844002BD1A8 /* model.cpp */,
+				16C0995E19F9F47D0005DB09 /* ring_topo.h */,
+				16C0995D19F9F47D0005DB09 /* ring_topo.cpp */,
+				1640B4631A18EDAD0096C99F /* d_topo.h */,
+				1640B4621A18EDAD0096C99F /* d_topo.cpp */,
 				16E86AC819CD37DD007B773A /* tman.1 */,
 			);
 			path = tman;
@@ -132,9 +140,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				16C0995F19F9F47D0005DB09 /* topologies.cpp in Sources */,
+				1640B4641A18EDAD0096C99F /* d_topo.cpp in Sources */,
+				16D451411A15C5D800F463DB /* Makefile in Sources */,
+				16C0995F19F9F47D0005DB09 /* ring_topo.cpp in Sources */,
 				16E86AC719CD37DD007B773A /* main.cpp in Sources */,
-				16A4D2C419F0C844002BD1A8 /* tman.cpp in Sources */,
+				16A4D2C419F0C844002BD1A8 /* model.cpp in Sources */,
 				16AE65C41A070C260003A072 /* driver.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -217,8 +227,8 @@
 			buildSettings = {
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					/usr/local/Cellar/boost/1.55.0_2/include,
+					/usr/local/Cellar/python/2.7.8_1/Frameworks/Python.framework/Versions/2.7/include/python2.7,
 				);
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = "";
@@ -231,8 +241,8 @@
 			buildSettings = {
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					/usr/local/Cellar/boost/1.55.0_2/include,
+					/usr/local/Cellar/python/2.7.8_1/Frameworks/Python.framework/Versions/2.7/include/python2.7,
 				);
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = "";

@@ -6,11 +6,12 @@
 //  Copyright (c) 2014 Yang Liu. All rights reserved.
 //
 
+#include <Python.h>
 #include <time.h>
 #include <stdlib.h>
 #include <algorithm>
 #include <unordered_set>
-#include "tman.h"
+#include "model.h"
 
 Node::Node(size_t neighbour_size) {
     //srand((unsigned int)time(NULL));

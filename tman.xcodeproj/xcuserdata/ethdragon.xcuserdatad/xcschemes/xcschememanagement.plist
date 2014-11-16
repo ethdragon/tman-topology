@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>Makefile.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
 		<key>tman.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -12,6 +17,11 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>16D451361A14821100F463DB</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>16E86AC219CD37DD007B773A</key>
 		<dict>
 			<key>primary</key>

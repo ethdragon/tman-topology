@@ -10,7 +10,6 @@
 #include <iostream>
 #include <list>
 #include "driver.h"
-#include "topologies.h"
 
 int main(int argc, const char * argv[])
 {
@@ -25,7 +24,7 @@ int main(int argc, const char * argv[])
     driver.init_stage();
     driver.evolution(5);
     
-    driver.write2json(1);
+    driver.write2json("topo.json");
     
     driver.terminate_stage(0);
     

@@ -9,10 +9,12 @@
 #ifndef __tman__driver__
 #define __tman__driver__
 
+#include <Python.h>
 #include <stdio.h>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
-#include "topologies.h"
+#include "ring_topo.h"
+#include "d_topo.h"
 
 using boost::property_tree::ptree;
 using boost::property_tree::write_json;
@@ -31,7 +33,7 @@ public:
     void init_stage();
     void evolution (int times=1);
     void terminate_stage(bool t);
-    void write2json(bool concise=false) const;
+    void write2json(const char* filename=0, bool concise=false) const;
     
 private:
     Topo *topo;

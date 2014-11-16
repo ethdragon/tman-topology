@@ -13,9 +13,10 @@
 
 #define _DEBUG(x) do { \
 if (_MY_DEBUG_FLG) { \
-    auto _timestamp = std::time(0); \
-    auto _tm = *std::localtime(&_timestamp); \
-    std::cout<<std::put_time(&_tm, "[%Y-%m-%d %H:%M:%S]")<<"|DEBUG| "<<x<<'\n';\
+    char buff[20]; \
+    time_t now = time(NULL); \
+    strftime(buff, 20, "%Y-%m-%d %H:%M:%S", localtime(&now)); \
+    std::cout<<buff<<" |DEBUG| "<<x<<'\n';\
     }\
 } while (0)
 

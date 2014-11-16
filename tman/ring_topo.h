@@ -10,7 +10,7 @@
 #define __tman__topologies__
 
 #include <stdio.h>
-#include "tman.h"
+#include "model.h"
 
 #define PI 3.14159265
 
@@ -22,19 +22,6 @@ public:
     virtual size_t distant(size_t, size_t) const;
     virtual std::vector<double> node_qth (size_t) const;
     virtual std::string get_topo_name() const;
-};
-
-class D_Topo : public Topo {
-public:
-    D_Topo(size_t topo_size=1000, double cut_rate=0.3);
-    virtual ~D_Topo();
-    
-    virtual size_t distant(size_t, size_t) const;
-    virtual std::vector<double> node_qth (size_t) const;
-    virtual std::string get_topo_name() const;
-    
-protected:
-    double cut_rate;
 };
 
 #endif /* defined(__tman__topologies__) */

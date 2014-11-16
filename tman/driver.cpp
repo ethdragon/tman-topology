@@ -166,7 +166,7 @@ void Drive::write_file(int iteration, const char * appendix) {
     fclose(fp);
 }
 
-void Drive::write2json(bool concise) const{
+void Drive::write2json(const char* filename, bool concise) const{
     std::list<Node *>::const_iterator it;
     Node *n = 0;
     ptree pt, nodes;
@@ -178,10 +178,11 @@ void Drive::write2json(bool concise) const{
     }
     pt.put_child("nodes", nodes);
     
+    if (filename) {
+        boost::property_tree::json_parser::write_json(filename, pt);
+        return;
+    }
     
-    boost::property_tree::json_parser::write_json("node.json", pt);
-    
-    /**/
     std::ostringstream buf;
     write_json (buf, pt, concise);
     std::string json = buf.str();
@@ -224,4 +225,7 @@ ptree Drive::node2ptree(Node const*n, bool concise) const{
     return pt;
 }
 
+extern "C" {
+    Drive *drive() { return new Drive(); }
+}
 
